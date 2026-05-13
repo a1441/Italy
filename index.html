@@ -1210,18 +1210,28 @@
   const pagerLabel = document.getElementById('pager-label');
   const cols = Array.from(kanban.querySelectorAll('.column'));
 
-  /* ---------- WHEEL → HORIZONTAL ---------- */
+  /* ---------- WHEEL → HORIZONTAL (only when col-body can't take it) ---------- */
   kanban.addEventListener('wheel', (e) => {
-    // If the user is scrolling vertically (deltaY dominant) and there's room to scroll horizontally,
-    // convert it to horizontal scroll
     const absX = Math.abs(e.deltaX);
     const absY = Math.abs(e.deltaY);
-    if (absY > absX) {
-      const canScrollH = kanban.scrollWidth > kanban.clientWidth;
-      if (canScrollH) {
-        e.preventDefault();
-        kanban.scrollLeft += e.deltaY;
+    if (absY <= absX) return; // already horizontal — let native handle
+
+    // If hovering inside a column's scrollable body, let it scroll vertically first.
+    const body = e.target.closest('.col-body');
+    if (body) {
+      const canScrollDown = body.scrollTop + body.clientHeight < body.scrollHeight - 1;
+      const canScrollUp = body.scrollTop > 0;
+      if ((e.deltaY > 0 && canScrollDown) || (e.deltaY < 0 && canScrollUp)) {
+        // native vertical scroll on the column body — don't intercept
+        return;
       }
+    }
+
+    // Otherwise convert vertical wheel into horizontal kanban scroll
+    const canScrollH = kanban.scrollWidth > kanban.clientWidth;
+    if (canScrollH) {
+      e.preventDefault();
+      kanban.scrollLeft += e.deltaY;
     }
   }, { passive: false });
 
