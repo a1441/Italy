@@ -7,25 +7,33 @@
 <title>Napoli & Capri — Май 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
   :root {
     --sea: #1e6091;
     --sea-deep: #144d75;
+    --sea-darker: #0f3a5a;
     --sea-light: #e8f1f8;
+    --sea-tint: #f4f8fb;
     --ochre: #d4853c;
     --ochre-light: #f7e6d1;
     --ochre-deep: #a86120;
     --terracotta: #c8553d;
     --cream: #fdf8f0;
+    --cream-deep: #f6ecd9;
     --ink: #1a2533;
     --ink-soft: #4a5868;
     --muted: #8a96a4;
     --line: #e6d9c4;
+    --line-soft: #f0e6d2;
     --done: #6b9b6b;
     --star: #e8a93d;
+    --alert-bg: #fff5f0;
+    --alert-border: #f5c7b8;
+    --alert-ink: #a8391c;
     --shadow: 0 4px 16px rgba(20, 77, 117, 0.08);
     --shadow-lg: 0 10px 30px rgba(20, 77, 117, 0.14);
+    --shadow-card: 0 1px 2px rgba(20, 77, 117, 0.04), 0 6px 18px rgba(20, 77, 117, 0.06);
   }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html, body { margin: 0; padding: 0; }
@@ -36,88 +44,238 @@
     line-height: 1.5;
     overflow-x: hidden;
     padding-bottom: env(safe-area-inset-bottom);
+    font-feature-settings: "ss01", "cv11";
   }
+  a { color: inherit; }
 
   /* HEADER */
   .hero {
     position: relative;
-    padding: 28px 20px 22px;
-    background: linear-gradient(135deg, var(--sea) 0%, var(--sea-deep) 100%);
+    padding: 26px 20px 22px;
+    background:
+      radial-gradient(circle at 88% 8%, rgba(212, 133, 60, 0.45) 0%, transparent 42%),
+      radial-gradient(circle at 5% 95%, rgba(255,255,255,0.10) 0%, transparent 45%),
+      linear-gradient(140deg, var(--sea) 0%, var(--sea-deep) 60%, var(--sea-darker) 100%);
     color: white;
     overflow: hidden;
   }
-  .hero::before {
+  .hero::after {
+    /* faint wave hatch */
     content: "";
     position: absolute;
     inset: 0;
-    background:
-      radial-gradient(circle at 90% 10%, rgba(212, 133, 60, 0.35) 0%, transparent 45%),
-      radial-gradient(circle at 10% 90%, rgba(255,255,255,0.08) 0%, transparent 40%);
+    background-image:
+      repeating-linear-gradient(135deg, rgba(255,255,255,0.025) 0 1px, transparent 1px 8px);
     pointer-events: none;
   }
   .hero-inner { position: relative; z-index: 1; }
-  .hero h1 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 32px;
-    line-height: 1.05;
-    margin: 0 0 6px;
-    letter-spacing: -0.5px;
+  .hero-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
   }
   .hero .sub {
-    font-size: 13px;
-    opacity: 0.85;
-    letter-spacing: 1.5px;
+    font-size: 11px;
+    opacity: 0.75;
+    letter-spacing: 2.2px;
     text-transform: uppercase;
-    margin-bottom: 14px;
+    margin-bottom: 8px;
+    font-weight: 500;
   }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 36px;
+    line-height: 1.0;
+    margin: 0 0 4px;
+    letter-spacing: -0.5px;
+  }
+  .hero h1 .amp {
+    font-style: italic;
+    color: #f6d4a0;
+    font-weight: 400;
+    margin: 0 2px;
+  }
+  .hero .tagline {
+    font-size: 13px;
+    opacity: 0.88;
+    margin-top: 10px;
+    font-style: italic;
+    font-family: 'DM Serif Display', serif;
+    font-size: 15px;
+    color: #f6d4a0;
+  }
+
+  /* COUNTDOWN CHIP */
+  .countdown {
+    flex-shrink: 0;
+    text-align: center;
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 12px;
+    padding: 8px 12px 6px;
+    backdrop-filter: blur(4px);
+    min-width: 78px;
+  }
+  .countdown .num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 30px;
+    line-height: 1;
+    letter-spacing: -0.5px;
+    color: #ffe6c4;
+  }
+  .countdown .lbl {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-top: 4px;
+    opacity: 0.8;
+  }
+  .countdown.active .num { color: #fff; }
+  .countdown.active .lbl { color: #fff; opacity: 1; font-weight: 600; }
+
   .hero .meta {
     display: flex;
-    gap: 14px;
-    font-size: 13px;
+    gap: 12px 16px;
+    font-size: 12.5px;
     opacity: 0.95;
     flex-wrap: wrap;
+    margin-top: 16px;
+    border-top: 1px solid rgba(255,255,255,0.14);
+    padding-top: 12px;
   }
   .hero .meta span { display: inline-flex; align-items: center; gap: 5px; }
+
+  /* PAGINATION DOTS */
+  .pager {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 14px 4px;
+  }
+  .pager-dot {
+    background: none;
+    border: 0;
+    padding: 6px 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  .pager-dot .pip {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #d6c8ad;
+    transition: all .25s cubic-bezier(.4,.0,.2,1);
+  }
+  .pager-dot[aria-current="true"] .pip {
+    width: 26px;
+    border-radius: 5px;
+    background: var(--sea);
+  }
+  .pager-label {
+    text-align: center;
+    font-size: 10.5px;
+    color: var(--ink-soft);
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-weight: 500;
+    min-height: 14px;
+  }
+  .pager-label strong { color: var(--sea-deep); font-weight: 600; }
 
   /* KANBAN */
   .kanban {
     display: flex;
     gap: 14px;
-    padding: 18px 14px 28px;
+    padding: 8px 14px 28px;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
+    scroll-padding: 14px;
   }
   .kanban::-webkit-scrollbar { display: none; }
 
   .column {
     flex: 0 0 88vw;
-    max-width: 360px;
+    max-width: 380px;
     scroll-snap-align: center;
     background: white;
-    border-radius: 16px;
-    box-shadow: var(--shadow);
+    border-radius: 18px;
+    box-shadow: var(--shadow-card);
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    border: 1px solid var(--line-soft);
   }
   .col-head {
-    padding: 14px 16px 12px;
+    padding: 16px 18px 14px;
     border-bottom: 1px solid var(--line);
-    background: var(--sea-light);
+    background: var(--sea-tint);
+    position: relative;
   }
-  .col-head.todo { background: var(--ochre-light); }
-  .col-head.priorities { background: linear-gradient(135deg, #fff3d6 0%, #f7e6d1 100%); }
-  .col-day { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--sea); font-weight: 600; }
+  .col-head.todo { background: linear-gradient(160deg, #fff3e1 0%, #f7e6d1 100%); }
+  .col-head.priorities { background: linear-gradient(160deg, #fff3d6 0%, #f7d8a6 100%); }
+  .col-head.day::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--sea);
+  }
+  .col-head.todo::before { background: var(--ochre); }
+  .col-head.priorities::before { background: var(--star); }
+  .col-head.day-active { background: linear-gradient(160deg, #fff8e8 0%, #ffe7c4 100%); }
+  .col-head.day-active::before { background: var(--ochre); width: 4px; }
+
+  .col-day {
+    font-size: 10.5px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--sea-deep);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
   .col-head.todo .col-day { color: var(--ochre-deep); }
   .col-head.priorities .col-day { color: var(--ochre-deep); }
+  .live-pulse {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 9.5px;
+    background: var(--ochre);
+    color: white;
+    padding: 2px 7px 2px 6px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+    font-weight: 700;
+  }
+  .live-pulse::before {
+    content: "";
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: white;
+    box-shadow: 0 0 0 0 rgba(255,255,255,0.7);
+    animation: pulse 1.6s infinite;
+  }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255,255,255,0.7); }
+    70% { box-shadow: 0 0 0 8px rgba(255,255,255,0); }
+    100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
+  }
+
   .col-title {
     font-family: 'DM Serif Display', serif;
-    font-size: 22px;
-    margin: 2px 0 0;
+    font-size: 26px;
+    margin: 4px 0 0;
     color: var(--ink);
-    line-height: 1.2;
+    line-height: 1.1;
+    letter-spacing: -0.3px;
   }
   .col-note {
     font-size: 12px;
@@ -129,29 +287,79 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    max-height: 70vh;
+    max-height: 68vh;
     overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--line) transparent;
+  }
+  .col-body::-webkit-scrollbar { width: 4px; }
+  .col-body::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+
+  /* PROGRESS BAR (TODO column) */
+  .progress-wrap {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .progress-track {
+    flex: 1;
+    height: 6px;
+    background: rgba(168, 97, 32, 0.15);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--ochre) 0%, var(--ochre-deep) 100%);
+    border-radius: 3px;
+    transition: width .4s cubic-bezier(.4,.0,.2,1);
+    width: 0%;
+  }
+  .progress-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ochre-deep);
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    min-width: 38px;
+    text-align: right;
   }
 
   /* CARDS */
   .card {
     background: var(--cream);
     border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 12px 14px;
-    transition: all .2s;
+    border-radius: 14px;
+    padding: 12px 14px 13px;
+    transition: opacity .25s, transform .15s;
     position: relative;
   }
   .card.priority {
-    background: linear-gradient(135deg, #fffbf2 0%, #fff5e0 100%);
+    background: linear-gradient(160deg, #fffbf2 0%, #fff5e0 100%);
     border-color: #f0d896;
   }
   .card.alert {
-    background: #fff5f0;
-    border-color: #f5c7b8;
+    background: var(--alert-bg);
+    border-color: var(--alert-border);
+  }
+  .card.alert h3 { color: var(--alert-ink); }
+  .card.visited {
+    opacity: 0.55;
+  }
+  .card.visited .card-title-text {
+    text-decoration: line-through;
+    text-decoration-color: var(--muted);
+    text-decoration-thickness: 1.5px;
+  }
+  .card-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
   }
   .card h3 {
-    margin: 0 0 4px;
+    margin: 0;
     font-size: 15px;
     font-weight: 600;
     color: var(--ink);
@@ -159,18 +367,24 @@
     align-items: flex-start;
     gap: 6px;
     line-height: 1.3;
+    flex: 1;
   }
   .card .ita {
+    font-family: 'DM Serif Display', serif;
     font-style: italic;
     color: var(--sea);
-    font-weight: 500;
+    font-weight: 400;
+    font-size: 16px;
+    letter-spacing: 0.2px;
   }
   .card p {
-    margin: 6px 0 0;
+    margin: 7px 0 0;
     font-size: 13px;
     color: var(--ink-soft);
-    line-height: 1.45;
+    line-height: 1.5;
+    text-wrap: pretty;
   }
+  .card strong { color: var(--ink); font-weight: 600; }
   .star {
     color: var(--star);
     font-size: 13px;
@@ -178,22 +392,52 @@
     margin-top: 2px;
   }
 
+  /* VISITED TOGGLE */
+  .visit-btn {
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1.5px solid var(--line);
+    background: white;
+    color: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all .15s;
+    padding: 0;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .visit-btn:hover { border-color: var(--done); color: var(--done); }
+  .visit-btn:active { transform: scale(0.92); }
+  .card.visited .visit-btn {
+    background: var(--done);
+    border-color: var(--done);
+    color: white;
+  }
+  .card.visited .visit-btn::before { content: "✓"; }
+  .visit-btn span { display: none; }
+
   /* TAGS */
   .tags {
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
-    margin-top: 8px;
+    margin-top: 10px;
   }
   .tag {
-    font-size: 10px;
-    letter-spacing: 0.6px;
+    font-size: 9.5px;
+    letter-spacing: 0.7px;
     text-transform: uppercase;
     padding: 3px 8px;
     border-radius: 20px;
     font-weight: 600;
     background: var(--sea-light);
     color: var(--sea-deep);
+    line-height: 1.4;
   }
   .tag.food { background: #fde9d0; color: var(--ochre-deep); }
   .tag.view { background: #e0eedf; color: #406b40; }
@@ -201,25 +445,25 @@
   .tag.museum { background: #e5dff5; color: #4a3a8c; }
   .tag.transport { background: #d8ebef; color: #2b5d68; }
   .tag.boat { background: #cde6f3; color: var(--sea-deep); }
-  .tag.warn { background: #ffe1d6; color: #a8391c; }
+  .tag.warn { background: #ffe1d6; color: var(--alert-ink); }
 
   /* LINKS / BUTTONS */
   .btns {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    margin-top: 10px;
+    margin-top: 11px;
   }
   .btn {
     display: inline-flex;
     align-items: center;
     gap: 5px;
     font-size: 12px;
-    padding: 6px 11px;
-    border-radius: 8px;
+    padding: 7px 11px;
+    border-radius: 9px;
     text-decoration: none;
     font-weight: 600;
-    transition: transform .1s, box-shadow .15s;
+    transition: transform .1s, box-shadow .15s, background .15s;
     border: 1px solid transparent;
     line-height: 1.2;
   }
@@ -227,6 +471,7 @@
   .btn-ticket {
     background: var(--ochre);
     color: white;
+    box-shadow: 0 1px 0 rgba(168, 97, 32, 0.4);
   }
   .btn-ticket:hover { background: var(--ochre-deep); }
   .btn-map {
@@ -234,30 +479,30 @@
     color: var(--sea-deep);
     border-color: var(--sea);
   }
+  .btn-map:hover { background: var(--sea-light); }
   .btn-info {
     background: var(--sea-light);
     color: var(--sea-deep);
   }
-  .btn .ic {
-    font-size: 13px;
-  }
+  .btn-info:hover { background: #d8e5ef; }
 
   /* CHECKBOX */
   .check-row {
     display: flex;
     align-items: flex-start;
-    gap: 10px;
+    gap: 11px;
     cursor: pointer;
     user-select: none;
-    padding: 8px 0;
+    padding: 10px 2px;
     border-bottom: 1px dashed var(--line);
+    transition: opacity .2s;
   }
   .check-row:last-child { border-bottom: none; }
   .check-box {
-    width: 20px;
-    height: 20px;
-    border: 2px solid var(--sea);
-    border-radius: 5px;
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--ochre);
+    border-radius: 6px;
     flex-shrink: 0;
     margin-top: 1px;
     display: flex;
@@ -273,69 +518,105 @@
   .check-row.done .check-box::after {
     content: "✓";
     color: white;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 700;
   }
-  .check-row.done .check-label {
+  .check-row.done .check-label .main {
     text-decoration: line-through;
     color: var(--muted);
   }
+  .check-row.done .check-label .sub { opacity: 0.5; }
   .check-label {
-    font-size: 13px;
+    font-size: 13.5px;
     color: var(--ink);
     line-height: 1.4;
+    flex: 1;
   }
+  .check-label .main { display: block; font-weight: 500; }
   .check-label .sub {
     display: block;
-    font-size: 11px;
+    font-size: 11.5px;
     color: var(--ink-soft);
     margin-top: 2px;
+    font-weight: 400;
   }
 
   /* FOOTER */
   .footer {
-    padding: 24px 20px 40px;
+    padding: 28px 20px 44px;
     text-align: center;
-    font-size: 12px;
     color: var(--muted);
   }
   .footer .ciao {
     font-family: 'DM Serif Display', serif;
-    font-size: 24px;
+    font-size: 28px;
     color: var(--ochre);
-    margin-bottom: 4px;
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
   }
-
-  /* SCROLL INDICATOR */
-  .scroll-hint {
-    text-align: center;
-    font-size: 11px;
+  .footer .legend {
+    font-size: 11.5px;
+    line-height: 1.7;
+    max-width: 340px;
+    margin: 6px auto 0;
+  }
+  .footer .legend .row {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin: 0 6px;
+  }
+  .footer .meta-foot {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
     color: var(--muted);
-    padding: 0 20px 6px;
+    margin-top: 14px;
     letter-spacing: 1px;
-    text-transform: uppercase;
+    opacity: 0.7;
   }
 
-  /* NOTE BLOCK */
+  /* QUOTE */
   .quote {
     background: linear-gradient(135deg, #fff5e0 0%, #ffe9c4 100%);
     border-left: 3px solid var(--ochre);
-    padding: 10px 12px;
+    padding: 10px 12px 10px 14px;
     border-radius: 8px;
-    font-size: 12px;
+    font-size: 12.5px;
     color: var(--ochre-deep);
     margin-top: 8px;
-    line-height: 1.45;
+    line-height: 1.5;
     font-style: italic;
+    position: relative;
+  }
+  .quote .who {
+    display: block;
+    font-style: normal;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    color: var(--ochre-deep);
+    opacity: 0.7;
+    margin-top: 5px;
+    font-weight: 600;
   }
 
-  /* RESPONSIVE — wider screens */
+  /* RESPONSIVE — wider screens: keep single-row horizontal scroll */
   @media (min-width: 900px) {
     .kanban {
-      justify-content: center;
-      flex-wrap: wrap;
+      padding: 8px 24px 40px;
+      gap: 18px;
     }
-    .column { flex: 0 0 320px; }
+    .column {
+      flex: 0 0 340px;
+      max-width: 340px;
+    }
+    .hero { padding: 36px 32px 28px; }
+    .hero h1 { font-size: 48px; }
+    .hero-inner { max-width: 1100px; margin: 0 auto; }
+    .pager { padding: 14px 24px 4px; }
+  }
+  @media (min-width: 1400px) {
+    .column { flex: 0 0 360px; max-width: 360px; }
   }
 </style>
 </head>
@@ -343,8 +624,17 @@
 
 <header class="hero">
   <div class="hero-inner">
-    <div class="sub">25 — 30 май 2026</div>
-    <h1>Napoli &amp; Capri</h1>
+    <div class="hero-row">
+      <div>
+        <div class="sub">25 — 30 май 2026</div>
+        <h1>Napoli <span class="amp">&amp;</span> Capri</h1>
+        <div class="tagline">— sei giorni al sud —</div>
+      </div>
+      <div class="countdown" id="countdown">
+        <div class="num" id="countdown-num">—</div>
+        <div class="lbl" id="countdown-lbl">дни</div>
+      </div>
+    </div>
     <div class="meta">
       <span>✈️ Кацане 8:10</span>
       <span>👯 С приятелите</span>
@@ -353,16 +643,21 @@
   </div>
 </header>
 
-<div class="scroll-hint">← Плъзни настрани между дните →</div>
+<div class="pager-label" id="pager-label">Плъзни настрани между колоните</div>
+<div class="pager" id="pager" role="tablist" aria-label="Колони"></div>
 
 <main class="kanban" id="kanban">
 
   <!-- TODO КОЛОНА -->
-  <section class="column">
+  <section class="column" data-pager-label="📋 To Do">
     <div class="col-head todo">
       <div class="col-day">От наша страна</div>
       <h2 class="col-title">📋 To Do</h2>
       <div class="col-note">Преди тръгване и при пристигане</div>
+      <div class="progress-wrap">
+        <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+        <div class="progress-count" id="progress-count">0/11</div>
+      </div>
     </div>
     <div class="col-body" id="todo-list">
       <!-- генерира се от JS -->
@@ -370,16 +665,19 @@
   </section>
 
   <!-- ДЕН 1 - 25 МАЙ -->
-  <section class="column">
-    <div class="col-head">
-      <div class="col-day">Понеделник · Ден 1</div>
+  <section class="column" data-pager-label="25 май" data-day-date="2026-05-25">
+    <div class="col-head day">
+      <div class="col-day"><span>Понеделник · Ден 1</span></div>
       <h2 class="col-title">25 май</h2>
       <div class="col-note">Кацане 8:10 · Настаняване 14:00</div>
     </div>
     <div class="col-body">
 
-      <div class="card alert">
-        <h3>✈️ Кацане 8:10</h3>
+      <div class="card alert" data-card-id="airport-checkin">
+        <div class="card-head">
+          <h3><span class="card-title-text">✈️ Кацане 8:10</span></h3>
+          <button class="visit-btn" aria-label="Маркирай"><span>✓</span></button>
+        </div>
         <p><strong>Проблем:</strong> настаняване чак в 14 ч. Да пишем на хората за по-ранно оставяне на багажа.</p>
         <div class="tags"><span class="tag warn">проверка</span><span class="tag transport">транспорт</span></div>
         <p style="margin-top:8px;"><strong>TODO:</strong> Как се стига от летище Capodichino до апартамента? (Alibus shuttle / такси / метро?)</p>
@@ -388,8 +686,11 @@
         </div>
       </div>
 
-      <div class="card">
-        <h3>🚇 Toledo <span class="ita">Metro Station</span></h3>
+      <div class="card" data-card-id="toledo">
+        <div class="card-head">
+          <h3><span class="card-title-text">🚇 Toledo <span class="ita">Metro Station</span></span></h3>
+          <button class="visit-btn" aria-label="Маркирай"><span>✓</span></button>
+        </div>
         <p>Една от най-красивите метростанции в света — мозайки и светлини като подводен свят.</p>
         <div class="tags"><span class="tag view">гледка</span><span class="tag transport">метро</span></div>
         <div class="btns">
@@ -397,8 +698,11 @@
         </div>
       </div>
 
-      <div class="card">
-        <h3>⛪ <span class="ita">Cappella Sansevero</span></h3>
+      <div class="card" data-card-id="sansevero">
+        <div class="card-head">
+          <h3><span class="card-title-text">⛪ <span class="ita">Cappella Sansevero</span></span></h3>
+          <button class="visit-btn" aria-label="Маркирай"><span>✓</span></button>
+        </div>
         <p>Галерия със <strong>„Забуления Христос“</strong>. Препоръчва се да купим билети предварително.</p>
         <div class="tags"><span class="tag museum">галерия</span><span class="tag warn">резервация</span></div>
         <div class="btns">
@@ -407,8 +711,11 @@
         </div>
       </div>
 
-      <div class="card">
-        <h3>🛣️ <span class="ita">Spaccanapoli</span></h3>
+      <div class="card" data-card-id="spaccanapoli">
+        <div class="card-head">
+          <h3><span class="card-title-text">🛣️ <span class="ita">Spaccanapoli</span></span></h3>
+          <button class="visit-btn" aria-label="Маркирай"><span>✓</span></button>
+        </div>
         <p>Дългата тясна улица, разделяща стария град на две. На няколко места я препоръчват — да видим защо е уау.</p>
         <div class="tags"><span class="tag view">разходка</span></div>
         <div class="btns">
@@ -416,8 +723,11 @@
         </div>
       </div>
 
-      <div class="card">
-        <h3>⛪ <span class="ita">Gesù Nuovo</span></h3>
+      <div class="card" data-card-id="gesu-nuovo">
+        <div class="card-head">
+          <h3><span class="card-title-text">⛪ <span class="ita">Gesù Nuovo</span></span></h3>
+          <button class="visit-btn" aria-label="Маркирай"><span>✓</span></button>
+        </div>
         <p>Църква с фасада от каменни пирамиди — много необичайна.</p>
         <div class="tags"><span class="tag church">църква</span></div>
         <div class="btns">
@@ -425,8 +735,11 @@
         </div>
       </div>
 
-      <div class="card">
-        <h3>⛪ <span class="ita">San Domenico Maggiore</span></h3>
+      <div class="card" data-card-id="san-domenico">
+        <div class="card-head">
+          <h3><span class="card-title-text">⛪ <span class="ita">San Domenico Maggiore</span></span></h3>
+          <button class="visit-btn" aria-label="Маркирай"><span>✓</span></button>
+        </div>
         <p>Древна базилика — наблизо до Sansevero и Gesù Nuovo (всичко е в едно каре).</p>
         <div class="tags"><span class="tag church">базилика</span></div>
         <div class="btns">
@@ -434,9 +747,12 @@
         </div>
       </div>
 
-      <div class="card priority">
-        <h3><span class="star">★</span> 🍕 Street Food Tour</h3>
-        <p>Vania препоръчва — има от 18-18:30, става за вечеря (или обяд). Изисква предварителна резервация.</p>
+      <div class="card priority" data-card-id="food-tour">
+        <div class="card-head">
+          <h3><span class="card-title-text"><span class="star">★</span> 🍕 Street Food Tour</span></h3>
+          <button class="visit-btn" aria-label="Маркирай"><span>✓</span></button>
+        </div>
+        <p>Vania препоръчва — има от 18:00-18:30, става за вечеря (или обяд). Изисква предварителна резервация.</p>
         <div class="tags"><span class="tag food">приоритет</span><span class="tag warn">резервация</span></div>
         <div class="btns">
           <a class="btn btn-ticket" href="https://www.getyourguide.com/naples-l162/naples-street-food-walking-tour-with-local-guide-t87860?ranking_uuid=a0fd3386-a06a-4971-bc20-cd47c7d31d0a&date_from=2026-05-25&date_to=2026-05-25&_pc=1,4" target="_blank" rel="noopener">🎟️ GetYourGuide 1</a>
@@ -448,60 +764,144 @@
     </div>
   </section>
 
-  <!-- СВОБОДНИ ДНИ 26-28 МАЙ -->
-  <section class="column">
-    <div class="col-head">
-      <div class="col-day">Вт · Ср · Чт</div>
-      <h2 class="col-title">26 — 28 май</h2>
-      <div class="col-note">Свободни дни — да се избере</div>
+  <!-- ДЕН 2 - 26 МАЙ -->
+  <section class="column" data-pager-label="26 май" data-day-date="2026-05-26">
+    <div class="col-head day">
+      <div class="col-day"><span>Вторник · Ден 2</span></div>
+      <h2 class="col-title">26 май</h2>
+      <div class="col-note">Свободен ден · Катакомби</div>
     </div>
     <div class="col-body">
 
-      <div class="card priority">
-        <h3><span class="star">★</span> 🕳️ <span class="ita">Galleria Borbonica</span></h3>
-        <p>Подземен тунел с тайни проходи, военни убежища и <strong>ретро коли</strong>. <strong>Само пт/сб/нд!</strong> Идеално за 29 или 30 май, ако решим. (Vania препоръчва.)</p>
-        <div class="tags"><span class="tag museum">приоритет</span><span class="tag warn">само пт-нд</span></div>
+      <div class="card priority" data-card-id="catacombe">
+        <div class="card-head">
+          <h3><span class="card-title-text"><span class="star">★</span> 💀 Катакомби</span></h3>
+          <button class="visit-btn" aria-label="Маркирай"><span>✓</span></button>
+        </div>
+        <p>Vania приоритет. Има няколко в Неапол — катакомбите на <span class="ita">San Gennaro</span> и <span class="ita">San Gaudioso</span> са най-популярни.</p>
+        <div class="tags"><span class="tag museum">приоритет</span><span class="tag warn">резервация</span></div>
         <div class="btns">
-          <a class="btn btn-ticket" href="https://www.galleriaborbonica.com/en/home/openings/" target="_blank" rel="noopener">🎟️ Турове</a>
-          <a class="btn btn-map" href="https://www.google.com/maps/search/Galleria+Borbonica+Naples" target="_blank" rel="noopener">📍 Карта</a>
+          <a class="btn btn-ticket" href="https://www.catacombedinapoli.it/en" target="_blank" rel="noopener">🎟️ Билети / инфо</a>
+          <a class="btn btn-map" href="https://www.google.com/maps/search/Catacombs+of+San+Gennaro+Naples" target="_blank" rel="noopener">📍 San Gennaro</a>
+          <a class="btn btn-map" href="https://www.google.com/maps/search/Catacombe+di+San+Gaudioso+Naples" target="_blank" rel="noopener">📍 San Gaudioso</a>
         </div>
       </div>
 
-      <div class="card priority">
-        <h3><span class="star">★</span> 💀 Катакомби</h3>
-        <p>Vania спомена като приоритет. Има няколко в Неапол — Катакомбите на <em>San Gennaro</em> и <em>San Gaudioso</em> са най-популярни.</p>
-        <div class="tags"><span class="tag museum">приоритет</span></div>
+      <div class="card" data-card-id="rione-sanita">
+        <div class="card-head">
+          <h3><span class="card-title-text">🏘️ <span class="ita">Rione Sanità</span></span></h3>
+          <button class="visit-btn" aria-label="Маркирай"><span>✓</span></button>
+        </div>
+        <p>Кварталът около катакомбите — автентичен, малко див, без туристи. Хубаво място за обяд след подземията.</p>
+        <div class="tags"><span class="tag food">обяд</span><span class="tag view">квартал</span></div>
         <div class="btns">
-          <a class="btn btn-info" href="https://www.catacombedinapoli.it/en" target="_blank" rel="noopener">ℹ️ Инфо</a>
-          <a class="btn btn-map" href="https://www.google.com/maps/search/Catacombs+of+San+Gennaro+Naples" target="_blank" rel="noopener">📍 Карта</a>
+          <a class="btn btn-map" href="https://www.google.com/maps/search/Rione+Sanita+Naples" target="_blank" rel="noopener">📍 Карта</a>
         </div>
       </div>
 
-      <div class="card priority">
-        <h3><span class="star">★</span> ♨️ Термите</h3>
-        <p>Vania приоритет. Термалните бани около Неапол — Pompeii, Pozzuoli, или Castellammare di Stabia.</p>
-        <div class="tags"><span class="tag view">приоритет</span></div>
+      <div class="quote">„Супер мн неща са, очаквам да се откажем от над половината от тях хахах, та, наистина не е идеята да се счупим от ходене.“<span class="who">— Vania</span></div>
+
+    </div>
+  </section>
+
+  <!-- ДЕН 3 - 27 МАЙ -->
+  <section class="column" data-pager-label="27 май" data-day-date="2026-05-27">
+    <div class="col-head day">
+      <div class="col-day"><span>Сряда · Ден 3</span></div>
+      <h2 class="col-title">27 май</h2>
+      <div class="col-note">Свободен ден · Термите</div>
+    </div>
+    <div class="col-body">
+
+      <div class="card priority" data-card-id="terme">
+        <div class="card-head">
+          <h3><span class="card-title-text"><span class="star">★</span> ♨️ Термите</span></h3>
+          <button class="visit-btn" aria-label="Маркирай"><span>✓</span></button>
+        </div>
+        <p>Vania приоритет. Термалните бани около Неапол — три опции, да изберем.</p>
+        <div class="tags"><span class="tag view">приоритет</span><span class="tag warn">избор</span></div>
         <div class="btns">
-          <a class="btn btn-map" href="https://www.google.com/maps/search/terme+naples" target="_blank" rel="noopener">📍 Карта</a>
+          <a class="btn btn-map" href="https://www.google.com/maps/search/Terme+di+Agnano+Naples" target="_blank" rel="noopener">📍 Agnano</a>
+          <a class="btn btn-map" href="https://www.google.com/maps/search/Terme+Stufe+di+Nerone+Pozzuoli" target="_blank" rel="noopener">📍 Pozzuoli</a>
+          <a class="btn btn-map" href="https://www.google.com/maps/search/Terme+Castellammare+di+Stabia" target="_blank" rel="noopener">📍 Stabia</a>
         </div>
       </div>
 
-      <div class="quote">💬 „Супер мн неща са, очаквам да се откажем от над половината от тях хахах, та, наистина не е идеята да се счупим от ходене.“ — Vania</div>
+      <div class="card" data-card-id="pozzuoli">
+        <div class="card-head">
+          <h3><span class="card-title-text">🌋 <span class="ita">Pozzuoli</span> &amp; <span class="ita">Campi Flegrei</span></span></h3>
+          <button class="visit-btn" aria-label="Маркирай"><span>✓</span></button>
+        </div>
+        <p>Ако са термите при Pozzuoli — има и <strong>Solfatara</strong> (вулканичен кратер) и римски амфитеатър наблизо. Може да се комбинира.</p>
+        <div class="tags"><span class="tag view">вулкан</span><span class="tag transport">~30 мин</span></div>
+        <div class="btns">
+          <a class="btn btn-map" href="https://www.google.com/maps/search/Pozzuoli+Italy" target="_blank" rel="noopener">📍 Карта</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ДЕН 4 - 28 МАЙ -->
+  <section class="column" data-pager-label="28 май" data-day-date="2026-05-28">
+    <div class="col-head day">
+      <div class="col-day"><span>Четвъртък · Ден 4</span></div>
+      <h2 class="col-title">28 май</h2>
+      <div class="col-note">Резервен ден · опции</div>
+    </div>
+    <div class="col-body">
+
+      <div class="card" data-card-id="pompeii">
+        <div class="card-head">
+          <h3><span class="card-title-text">🏛️ <span class="ita">Pompei</span> (опция)</span></h3>
+          <button class="visit-btn" aria-label="Маркирай"><span>✓</span></button>
+        </div>
+        <p>Ако още имаме сила — еднодневна екскурзия до развалините. Влак <span class="ita">Circumvesuviana</span> от Napoli Centrale, ~40 мин. Цял ден работа.</p>
+        <div class="tags"><span class="tag museum">руини</span><span class="tag transport">влак</span><span class="tag warn">цял ден</span></div>
+        <div class="btns">
+          <a class="btn btn-ticket" href="https://www.pompeiisites.org/en/" target="_blank" rel="noopener">🎟️ Билети</a>
+          <a class="btn btn-map" href="https://www.google.com/maps/search/Pompeii+Archaeological+Park" target="_blank" rel="noopener">📍 Карта</a>
+        </div>
+      </div>
+
+      <div class="card" data-card-id="lungomare">
+        <div class="card-head">
+          <h3><span class="card-title-text">🌅 <span class="ita">Lungomare</span> &amp; разходка</span></h3>
+          <button class="visit-btn" aria-label="Маркирай"><span>✓</span></button>
+        </div>
+        <p>Лек ден — крайбрежна разходка по <span class="ita">Via Caracciolo</span>, кафе с гледка към Везувий, аперитив. <em>Без план.</em></p>
+        <div class="tags"><span class="tag view">залив</span><span class="tag food">аперитив</span></div>
+        <div class="btns">
+          <a class="btn btn-map" href="https://www.google.com/maps/search/Lungomare+Napoli" target="_blank" rel="noopener">📍 Карта</a>
+        </div>
+      </div>
+
+      <div class="card alert" data-card-id="rest-day">
+        <div class="card-head">
+          <h3><span class="card-title-text">☕ Резервен ден</span></h3>
+          <button class="visit-btn" aria-label="Маркирай"><span>✓</span></button>
+        </div>
+        <p>Преди Capri (29) и натоварения финал (30). Хубаво е да оставим място за <strong>нищо</strong> — или каквото пропуснем от другите дни.</p>
+        <div class="tags"><span class="tag view">отдих</span></div>
+      </div>
 
     </div>
   </section>
 
   <!-- ДЕН - 29 МАЙ - КАПРИ -->
-  <section class="column">
-    <div class="col-head">
-      <div class="col-day">Петък · Capri</div>
+  <section class="column" data-pager-label="29 · Capri" data-day-date="2026-05-29">
+    <div class="col-head day">
+      <div class="col-day"><span>Петък · Ден 5 · Capri</span></div>
       <h2 class="col-title">29 май</h2>
       <div class="col-note">Кораб → Capri → Blue Grotto</div>
     </div>
     <div class="col-body">
 
-      <div class="card priority">
-        <h3><span class="star">★</span> ⛵ <span class="ita">Capri</span></h3>
+      <div class="card priority" data-card-id="capri-ferry">
+        <div class="card-head">
+          <h3><span class="card-title-text"><span class="star">★</span> ⛵ <span class="ita">Capri</span></span></h3>
+          <button class="visit-btn" aria-label="Маркирай"><span>✓</span></button>
+        </div>
         <p>От пристанище <strong>Molo Beverello</strong> взимаме бърз кораб до <strong>Capri (Marina Grande)</strong>. Пътуването е около <strong>45-50 мин</strong>.</p>
         <div class="tags"><span class="tag boat">приоритет</span><span class="tag transport">кораб</span></div>
         <div class="btns">
@@ -510,10 +910,13 @@
         </div>
       </div>
 
-      <div class="card">
-        <h3>🌊 <span class="ita">Grotta Azzurra</span> (Синята пещера)</h3>
+      <div class="card alert" data-card-id="grotta-azzurra">
+        <div class="card-head">
+          <h3><span class="card-title-text">🌊 <span class="ita">Grotta Azzurra</span> — опционална</span></h3>
+          <button class="visit-btn" aria-label="Маркирай"><span>✓</span></button>
+        </div>
         <p>Стигането е неясно: лодка от Капри до пещерата, после <strong>друга лодка с гребане</strong> вътре. Има екскурзии онлайн, но има и самостоятелен начин.</p>
-        <div class="quote">💬 „Можем и да не ходим до нея, а само да се моткаме в Капри.“ — Vania</div>
+        <div class="quote">„Можем и да не ходим до нея, а само да се моткаме в Капри.“<span class="who">— Vania</span></div>
         <div class="tags"><span class="tag boat">лодка</span><span class="tag warn">опционално</span></div>
         <div class="btns">
           <a class="btn btn-ticket" href="https://www.capri.com/en/l/blue-grotto-tours" target="_blank" rel="noopener">🎟️ Турове</a>
@@ -521,26 +924,49 @@
         </div>
       </div>
 
-      <div class="card">
-        <h3>🏝️ Разходка из Capri</h3>
-        <p>Ако не ходим в пещерата — да обикаляме острова, Anacapri, Giardini di Augusto, Piazzetta.</p>
+      <div class="card" data-card-id="capri-walk">
+        <div class="card-head">
+          <h3><span class="card-title-text">🏝️ Разходка из <span class="ita">Capri</span></span></h3>
+          <button class="visit-btn" aria-label="Маркирай"><span>✓</span></button>
+        </div>
+        <p>Ако не ходим в пещерата — да обикаляме острова: <em>Anacapri</em>, <em>Giardini di Augusto</em>, <em>Piazzetta</em>.</p>
         <div class="tags"><span class="tag view">алтернатива</span></div>
+        <div class="btns">
+          <a class="btn btn-map" href="https://www.google.com/maps/search/Anacapri+Capri" target="_blank" rel="noopener">📍 Anacapri</a>
+          <a class="btn btn-map" href="https://www.google.com/maps/search/Giardini+di+Augusto+Capri" target="_blank" rel="noopener">📍 Giardini</a>
+        </div>
       </div>
 
     </div>
   </section>
 
   <!-- ДЕН - 30 МАЙ -->
-  <section class="column">
-    <div class="col-head">
-      <div class="col-day">Събота · Ден 4</div>
+  <section class="column" data-pager-label="30 май" data-day-date="2026-05-30">
+    <div class="col-head day">
+      <div class="col-day"><span>Събота · Ден 6 · финал</span></div>
       <h2 class="col-title">30 май</h2>
       <div class="col-note">Музей · Vomero · Залив</div>
     </div>
     <div class="col-body">
 
-      <div class="card priority">
-        <h3><span class="star">★</span> 🏛️ <span class="ita">MANN</span></h3>
+      <div class="card priority" data-card-id="galleria-borbonica">
+        <div class="card-head">
+          <h3><span class="card-title-text"><span class="star">★</span> 🕳️ <span class="ita">Galleria Borbonica</span></span></h3>
+          <button class="visit-btn" aria-label="Маркирай"><span>✓</span></button>
+        </div>
+        <p>Подземен тунел с тайни проходи, военни убежища и <strong>ретро коли</strong>. <strong>Само пт/сб/нд</strong> — 30 май е събота, идеално!</p>
+        <div class="tags"><span class="tag museum">приоритет</span><span class="tag warn">резервация</span></div>
+        <div class="btns">
+          <a class="btn btn-ticket" href="https://www.galleriaborbonica.com/en/home/openings/" target="_blank" rel="noopener">🎟️ Турове</a>
+          <a class="btn btn-map" href="https://www.google.com/maps/search/Galleria+Borbonica+Naples" target="_blank" rel="noopener">📍 Карта</a>
+        </div>
+      </div>
+
+      <div class="card priority" data-card-id="mann">
+        <div class="card-head">
+          <h3><span class="card-title-text"><span class="star">★</span> 🏛️ <span class="ita">MANN</span></span></h3>
+          <button class="visit-btn" aria-label="Маркирай"><span>✓</span></button>
+        </div>
         <p><strong>National Archaeological Museum</strong>. Тук са съкровищата от Помпей. <strong>Минимум 2.5 часа.</strong> Vania чела, че е доста як.</p>
         <div class="tags"><span class="tag museum">приоритет</span><span class="tag warn">2.5ч+</span></div>
         <div class="btns">
@@ -549,8 +975,11 @@
         </div>
       </div>
 
-      <div class="card">
-        <h3>🚞 <span class="ita">Funicolare Centrale</span></h3>
+      <div class="card" data-card-id="funicolare">
+        <div class="card-head">
+          <h3><span class="card-title-text">🚞 <span class="ita">Funicolare Centrale</span></span></h3>
+          <button class="visit-btn" aria-label="Маркирай"><span>✓</span></button>
+        </div>
         <p>От Via Toledo до хълма <strong>Vomero</strong>. Пътят ~10 мин, буквално старо метро, но с много хубави гледки.</p>
         <div class="tags"><span class="tag transport">~10 мин</span><span class="tag view">гледка</span></div>
         <div class="btns">
@@ -558,8 +987,11 @@
         </div>
       </div>
 
-      <div class="card">
-        <h3>🏰 <span class="ita">Certosa di San Martino &amp; Castel Sant'Elmo</span></h3>
+      <div class="card" data-card-id="san-martino">
+        <div class="card-head">
+          <h3><span class="card-title-text">🏰 <span class="ita">Certosa di San Martino &amp; Castel Sant'Elmo</span></span></h3>
+          <button class="visit-btn" aria-label="Маркирай"><span>✓</span></button>
+        </div>
         <p>Едно до друго. <strong>Манастирът</strong> е за изкуство, <strong>крепостта Sant'Elmo</strong> — 360° гледка над Неапол.</p>
         <div class="tags"><span class="tag view">360° гледка</span><span class="tag museum">манастир</span></div>
         <div class="btns">
@@ -567,17 +999,23 @@
         </div>
       </div>
 
-      <div class="card alert">
-        <h3>🪜 <span class="ita">Pedamentina</span> — 414 стъпала</h3>
-        <p>Историческите стълби надолу. Гледка към залива. <strong>Обачеее са 414 стъпала</strong> — пеша надолу (не нагоре!).</p>
+      <div class="card alert" data-card-id="pedamentina">
+        <div class="card-head">
+          <h3><span class="card-title-text">🪜 <span class="ita">Pedamentina</span> — 414 стъпала</span></h3>
+          <button class="visit-btn" aria-label="Маркирай"><span>✓</span></button>
+        </div>
+        <p>Историческите стълби надолу. Гледка към залива. <strong>Обаче са 414 стъпала</strong> — пеша надолу (не нагоре!).</p>
         <div class="tags"><span class="tag warn">414 стъпала</span><span class="tag view">гледка</span></div>
         <div class="btns">
           <a class="btn btn-map" href="https://www.google.com/maps/search/Pedamentina+San+Martino+Naples" target="_blank" rel="noopener">📍 Карта</a>
         </div>
       </div>
 
-      <div class="card">
-        <h3>🏘️ <span class="ita">Quartieri Spagnoli</span></h3>
+      <div class="card" data-card-id="quartieri">
+        <div class="card-head">
+          <h3><span class="card-title-text">🏘️ <span class="ita">Quartieri Spagnoli</span></span></h3>
+          <button class="visit-btn" aria-label="Маркирай"><span>✓</span></button>
+        </div>
         <p>Стълбите Pedamentina ни докарват точно в сърцето на Испанския квартал. Тук да хапнем и пийнем.</p>
         <div class="tags"><span class="tag food">обяд/вечеря</span></div>
         <div class="btns">
@@ -585,8 +1023,11 @@
         </div>
       </div>
 
-      <div class="card">
-        <h3>🏰 <span class="ita">Castel dell'Ovo</span></h3>
+      <div class="card" data-card-id="castel-ovo">
+        <div class="card-head">
+          <h3><span class="card-title-text">🏰 <span class="ita">Castel dell'Ovo</span></span></h3>
+          <button class="visit-btn" aria-label="Маркирай"><span>✓</span></button>
+        </div>
         <p>Разходка до замъка в морето — финал на деня край залива.</p>
         <div class="tags"><span class="tag view">залив</span></div>
         <div class="btns">
@@ -598,18 +1039,18 @@
   </section>
 
   <!-- ПРИОРИТЕТИ -->
-  <section class="column">
+  <section class="column" data-pager-label="⭐ Top">
     <div class="col-head priorities">
       <div class="col-day">Wishlist</div>
       <h2 class="col-title">⭐ Vania's top</h2>
-      <div class="col-note">„Това са ми приоритетите 😄“</div>
+      <div class="col-note">„Това са ми приоритетите 😄"</div>
     </div>
     <div class="col-body">
-      <div class="card priority"><h3><span class="star">★</span> 🍕 Street храна</h3><p>Street Food Tour на 25 май (или друг ден).</p></div>
-      <div class="card priority"><h3><span class="star">★</span> 💀 Катакомбите</h3><p>„Ако можем да идем и на двете, би било яко.“</p></div>
-      <div class="card priority"><h3><span class="star">★</span> ♨️ Термите</h3></div>
-      <div class="card priority"><h3><span class="star">★</span> ⛵ Капри</h3></div>
-      <div class="card priority"><h3><span class="star">★</span> 🏛️ MANN</h3><p>Археологическият музей — „доста як“.</p></div>
+      <div class="card priority"><div class="card-head"><h3><span class="card-title-text"><span class="star">★</span> 🍕 Street храна</span></h3></div><p>Street Food Tour на 25 май (или друг ден).</p></div>
+      <div class="card priority"><div class="card-head"><h3><span class="card-title-text"><span class="star">★</span> 💀 Катакомбите</span></h3></div><p>„Ако можем да идем и на двете, би било яко."</p></div>
+      <div class="card priority"><div class="card-head"><h3><span class="card-title-text"><span class="star">★</span> ♨️ Термите</span></h3></div></div>
+      <div class="card priority"><div class="card-head"><h3><span class="card-title-text"><span class="star">★</span> ⛵ Капри</span></h3></div></div>
+      <div class="card priority"><div class="card-head"><h3><span class="card-title-text"><span class="star">★</span> 🏛️ MANN</span></h3></div><p>Археологическият музей — „доста як".</p></div>
     </div>
   </section>
 
@@ -617,11 +1058,47 @@
 
 <div class="footer">
   <div class="ciao">Buon viaggio! 🇮🇹</div>
-  <div>Тапни на 📍 за карта · на 🎟️ за билети · ✅ за маркиране</div>
+  <div class="legend">
+    <span class="row">🎟️ билети</span> ·
+    <span class="row">📍 карта</span> ·
+    <span class="row">ℹ️ инфо</span> ·
+    <span class="row">✓ маркирай</span> ·
+    <span class="row">★ приоритет</span>
+  </div>
+  <div class="meta-foot">NAP · CPR · 25 → 30 V MMXXVI</div>
 </div>
 
 <script>
-  // TODO / RESERVATIONS CHECKLIST
+  /* ---------- COUNTDOWN ---------- */
+  const tripStart = new Date('2026-05-25T08:10:00+02:00');
+  const tripEnd   = new Date('2026-05-30T23:59:00+02:00');
+  function updateCountdown() {
+    const now = new Date();
+    const num = document.getElementById('countdown-num');
+    const lbl = document.getElementById('countdown-lbl');
+    const wrap = document.getElementById('countdown');
+    const msDay = 86400000;
+    if (now < tripStart) {
+      const days = Math.ceil((tripStart - now) / msDay);
+      num.textContent = days;
+      lbl.textContent = days === 1 ? 'ден остава' : 'дни остават';
+      wrap.classList.remove('active');
+    } else if (now <= tripEnd) {
+      const dayNum = Math.floor((now - tripStart) / msDay) + 1;
+      num.textContent = 'Сега';
+      num.style.fontSize = '20px';
+      num.style.paddingTop = '6px';
+      lbl.textContent = 'Ден ' + dayNum;
+      wrap.classList.add('active');
+    } else {
+      num.textContent = '🇮🇹';
+      lbl.textContent = 'фини';
+      wrap.classList.remove('active');
+    }
+  }
+  updateCountdown();
+
+  /* ---------- TODO CHECKLIST ---------- */
   const todos = [
     { id: 'luggage', label: 'Писа на хазяина за по-ранно оставяне на багажа', sub: 'Настаняване 14:00, кацаме 8:10' },
     { id: 'airport', label: 'Виж как от Capodichino до апартамента', sub: 'Alibus shuttle / такси / метро?' },
@@ -636,26 +1113,121 @@
     { id: 'comfy-shoes', label: 'Удобни обувки!', sub: '414 стъпала на Pedamentina ни чакат' },
   ];
 
+  const TODO_KEY = 'italy-trip-todos-2026';
+  const VISIT_KEY = 'italy-trip-visited-2026';
   const todoList = document.getElementById('todo-list');
-  const STORAGE_KEY = 'italy-trip-todos-2026';
-  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+  const savedTodos = JSON.parse(localStorage.getItem(TODO_KEY) || '{}');
+  const savedVisits = JSON.parse(localStorage.getItem(VISIT_KEY) || '{}');
+
+  const fill = document.getElementById('progress-fill');
+  const count = document.getElementById('progress-count');
+  function refreshProgress() {
+    const total = todos.length;
+    const done = todos.filter(t => savedTodos[t.id]).length;
+    fill.style.width = (done / total * 100) + '%';
+    count.textContent = done + '/' + total;
+  }
 
   todos.forEach(t => {
     const row = document.createElement('label');
-    row.className = 'check-row' + (saved[t.id] ? ' done' : '');
+    row.className = 'check-row' + (savedTodos[t.id] ? ' done' : '');
     row.dataset.id = t.id;
     row.innerHTML = `
       <div class="check-box"></div>
-      <div class="check-label">${t.label}${t.sub ? `<span class="sub">${t.sub}</span>` : ''}</div>
+      <div class="check-label">
+        <span class="main">${t.label}</span>
+        ${t.sub ? `<span class="sub">${t.sub}</span>` : ''}
+      </div>
     `;
     row.addEventListener('click', (e) => {
       e.preventDefault();
       row.classList.toggle('done');
-      saved[t.id] = row.classList.contains('done');
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+      savedTodos[t.id] = row.classList.contains('done');
+      localStorage.setItem(TODO_KEY, JSON.stringify(savedTodos));
+      refreshProgress();
     });
     todoList.appendChild(row);
   });
+  refreshProgress();
+
+  /* ---------- VISITED CARD STATE ---------- */
+  document.querySelectorAll('.card[data-card-id]').forEach(card => {
+    const id = card.dataset.cardId;
+    if (savedVisits[id]) card.classList.add('visited');
+    const btn = card.querySelector('.visit-btn');
+    if (!btn) return;
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      card.classList.toggle('visited');
+      savedVisits[id] = card.classList.contains('visited');
+      localStorage.setItem(VISIT_KEY, JSON.stringify(savedVisits));
+    });
+  });
+
+  /* ---------- KANBAN PAGINATION ---------- */
+  const kanban = document.getElementById('kanban');
+  const pager = document.getElementById('pager');
+  const pagerLabel = document.getElementById('pager-label');
+  const cols = Array.from(kanban.querySelectorAll('.column'));
+
+  cols.forEach((col, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'pager-dot';
+    dot.setAttribute('role', 'tab');
+    dot.setAttribute('aria-label', col.dataset.pagerLabel || ('Колона ' + (i+1)));
+    dot.innerHTML = '<span class="pip"></span>';
+    dot.addEventListener('click', () => {
+      col.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    });
+    pager.appendChild(dot);
+  });
+
+  let activeIdx = 0;
+  function setActive(i) {
+    activeIdx = i;
+    Array.from(pager.children).forEach((d, j) =>
+      d.setAttribute('aria-current', j === i ? 'true' : 'false'));
+    const lbl = cols[i].dataset.pagerLabel || '';
+    pagerLabel.innerHTML = `Колона <strong>${i+1}/${cols.length}</strong> · ${lbl}`;
+  }
+
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      let best = null;
+      entries.forEach(e => {
+        if (!best || e.intersectionRatio > best.intersectionRatio) best = e;
+      });
+      if (best && best.isIntersecting) {
+        const i = cols.indexOf(best.target);
+        if (i >= 0) setActive(i);
+      }
+    }, { root: kanban, threshold: [0.5, 0.75] });
+    cols.forEach(c => io.observe(c));
+  }
+  setActive(0);
+
+  /* ---------- HIGHLIGHT ACTIVE DAY ---------- */
+  (function highlightToday() {
+    const today = new Date();
+    const todayStr = today.toISOString().slice(0,10);
+    cols.forEach(col => {
+      const dates = (col.dataset.dayDate || '').split(',');
+      if (dates.includes(todayStr)) {
+        const head = col.querySelector('.col-head');
+        head.classList.add('day-active');
+        const dayLine = head.querySelector('.col-day');
+        if (dayLine && !dayLine.querySelector('.live-pulse')) {
+          const tag = document.createElement('span');
+          tag.className = 'live-pulse';
+          tag.textContent = 'ДНЕС';
+          dayLine.appendChild(tag);
+        }
+        // auto-scroll to today on first load
+        setTimeout(() => col.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }), 300);
+      }
+    });
+  })();
 </script>
 
 </body>
